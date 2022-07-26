@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+
 
 function App() {
+  const [inputText, changeText] = useState(['','']);
+  
+  function handleArbiterChange(event){
+    changeText([event.target.value,inputText[1]]);
+  }
+
+  function handleBeneficiaryChange(event){
+    changeText([inputText[0],event.target.value]);
+  }
+
+  function createContract(){
+
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="inputFields">
+      <label htmlFor='arbiterField'>Arbiter</label>
+      <input type="text" value={inputText[0]} name='arbiterField' onChange={handleArbiterChange}/>
+      <label htmlFor='beneficiaryField'>Beneficiary</label>
+      <input type="text" value={inputText[1]} name='beneficiaryField' onChange={handleBeneficiaryChange} />
+      <button id='createButton' onClick={createContract}>Create Contract</button>
     </div>
   );
 }
