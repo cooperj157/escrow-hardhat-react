@@ -25,7 +25,5 @@ contract Escrow {
         isApproved = true;
     }
 
-    receive() external payable{
-
-    }
+    
 }
