@@ -14,6 +14,6 @@ export default async function deploy(arbiter, beneficiary, value){
   const address = escrow.address;
   console.log((await provider.getBalance(address)).toBigInt());
   
-  return escrow;
+  return address;
   
   }
