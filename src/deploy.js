@@ -7,12 +7,11 @@ export default async function deploy(arbiter, beneficiary, value){
   const signer = provider.getSigner(0);
   const EscrowFactory = new ethers.ContractFactory(Escrow.abi, Escrow.bytecode, signer);
   
-  const contractValue = ethers.BigNumber.from(value);
-  const escrow = await EscrowFactory.deploy(arbiter,beneficiary,{ value: contractValue });
+  const valueToWei = ethers.utils.parseEther(value);
+  const escrow = await EscrowFactory.deploy(arbiter,beneficiary,{ value: valueToWei });
   await escrow.deployTransaction.wait();
   
   const address = escrow.address;
-  console.log((await provider.getBalance(address)).toBigInt());
   
   return address;
   

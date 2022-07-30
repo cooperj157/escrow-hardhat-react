@@ -4,6 +4,41 @@
   padding: 5%;
 }
 
+#contract0{
+  display: none;
+}
 #createButton{
   margin-top: 5%;
+}
+
+#listofcontracts{
+  width:fit-content;
+  border: 5px solid lightpink;
+  margin: 4%;
+  overflow-wrap: break-word;
+}
+
+.lineItem{
+  margin:2%;
+}
+
+#releaseButton{
+  margin-bottom: 2%;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 2%;
+}
+
+
+
+#contracts{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  
+}
+
+#contractsHeader{
+  text-align: center;
+  text-decoration: underline;
 }

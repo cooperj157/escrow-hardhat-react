@@ -11,7 +11,7 @@ function App() {
   
   const [inputText, changeText] = useState(['','',0]);
   const [contract, newContract] = useState([{
-    display: 'none'
+    id: 0,
   }]);
 
   function handleArbiterChange(event){
@@ -27,16 +27,16 @@ function App() {
   }
 
   async function setAddresses(){
-    const arbiter = '0xf828A0A5Fa2153ba81eC315C04ecd101a04A7b50';
+    const arbiter = '0x9cA10872Bf1183EF561A9C93D1BDA9D2Eeb1a49E';
     const beneficiary = '0xCd55Cf96929064a924EEE9E2Ea53d802b5C7DcD9';
-    const value = "100000000000000000";
-    changeText([arbiter,beneficiary,value]);
+    changeText([arbiter,beneficiary,inputText[2]]);
   }
 
   async function createContract(){
     const _arbiter = inputText[0];
     const _beneficiary = inputText[1];
     const _value = inputText[2];
+
     contractAddr = await deploy(_arbiter, _beneficiary, _value);
 
     newContract([...contract,{
@@ -44,10 +44,11 @@ function App() {
       arbiter: 'Arbiter: '+_arbiter,
       beneficiary: 'Beneficiary: '+_beneficiary,
       address: contractAddr,
-      value: 'Value: '+ _value,
+      value: 'Value: '+ _value + " Eth",
       releaseMsg: 'Release the funds',
       status: "Status: Active",
-      disabled: false
+      disabled: false,
+      buttonColor: 'green'
     }]);
     counter++;
   }
@@ -77,7 +78,8 @@ function App() {
       value: _value,
       releaseMsg: 'Released',
       status: "Status: Funds have been released, now inactive",
-      disabled: true
+      disabled: true,
+      buttonColor: 'red'
     },...contractsAfterID]);
     
   }
@@ -94,10 +96,13 @@ function App() {
         <button id='createButton' onClick={createContract}>Create Contract</button>
         <button id='setAddresses' onClick={setAddresses}>fill the fields with addresses</button>
       </div>
-      <div className="contracts">
-        <div>Your Contracts</div>
+      <div id='contractsHeader'>
+        <div >Your Contracts</div>
+      </div>
+      <div id='contracts'>
         {contract.map((contr, i)=> <Contracts contract={contr} key={i} onClick={async()=>releaseFunds(contr.id)}/>)}
-      </div>   
+      </div>  
+        
     </div>
       
   );
