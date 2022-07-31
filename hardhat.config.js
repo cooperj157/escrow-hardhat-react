@@ -8,12 +8,6 @@ require('dotenv').config();
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  networks:{
-    rinkeby: {
-      url: process.env.ALCHEMY_KEY,
-      accounts: [process.env.PRIVATE_KEY]
-    }
-  },
   paths: {
     artifacts: './src/artifacts'
   },
