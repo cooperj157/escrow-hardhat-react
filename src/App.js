@@ -4,11 +4,10 @@ import { ethers } from 'ethers';
 import Escrow from './artifacts/contracts/Escrow.sol/Escrow';
 import Contracts from './Contracts';
 
-const provider = new ethers.providers.Web3Provider(window.ethereum);
 let contractAddr = '';
 let counter = 1;
+
 function App() {
-  
   const [inputText, changeText] = useState(['','',0]);
   const [contract, newContract] = useState([{
     id: 0,
@@ -27,7 +26,7 @@ function App() {
   }
 
   async function setAddresses(){
-    const arbiter = '0x9cA10872Bf1183EF561A9C93D1BDA9D2Eeb1a49E';
+    const arbiter = '0x8bD9DB879b4C645239f8489E3C7ce5C3EF8Ec00d';
     const beneficiary = '0xCd55Cf96929064a924EEE9E2Ea53d802b5C7DcD9';
     changeText([arbiter,beneficiary,inputText[2]]);
   }
@@ -41,7 +40,7 @@ function App() {
 
     newContract([...contract,{
       id: counter,
-      arbiter: 'Arbiter: '+_arbiter,
+      arbiter: _arbiter,
       beneficiary: 'Beneficiary: '+_beneficiary,
       address: contractAddr,
       value: 'Value: '+ _value + " Eth",
@@ -55,21 +54,25 @@ function App() {
 
   async function releaseFunds(id){
 
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    
     const _address = contract[id].address;
     const thisContract = new ethers.Contract(_address,Escrow.abi,provider);
-
+    
     const _id = contract[id].id;
+    
     const _arbiter = contract[id].arbiter;
     const _beneficiary = contract[id].beneficiary;
     const _value = contract[id].value;
-
-    let contractsUpToID = contract.slice(0,id);
-    let contractsAfterID = null;
-    if(counter > id){
-      contractsAfterID = contract.slice(id+1);
-    }
     
-    await thisContract.connect(provider.getSigner(0)).release();
+    let contractsUpToID = contract.slice(0,id);
+    
+    const contractsAfterID = contract.slice(id+1);
+    
+    await window.ethereum.request({method: 'eth_requestAccounts'});
+    const signer = provider.getSigner();
+    await thisContract.connect(signer).release();
+
     newContract([...contractsUpToID, {
       id: _id,
       arbiter: _arbiter,
@@ -81,7 +84,6 @@ function App() {
       disabled: true,
       buttonColor: 'red'
     },...contractsAfterID]);
-    
   }
 
   return (

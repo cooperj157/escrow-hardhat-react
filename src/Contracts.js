@@ -6,6 +6,7 @@ export default function Contracts(props){
                 <div id="listofcontracts">
                     <div className="lineItem">ID:</div>
                     <div className="lineItem">{props.contract.id}</div>
+                    <div className='lineItem'>Arbiter: </div>
                     <div className="lineItem">{props.contract.arbiter}</div>
                     <div className="lineItem">{props.contract.beneficiary}</div>
                     <div className="lineItem">Address:</div>
